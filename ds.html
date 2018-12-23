@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+.container .circle {
+    background:red;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 10px;
+    }
+</style>
+<body>
+        <div class="container">
+  
+            </div>
+    <script>
+            function LinkedList() {
+                // head will be the top of the list
+                // we'll define it as null for now
+                this.head = null;
+                this.length = 0;
+                
+                  this.add = function(data) {
+                  var nodeToAdd = new Node(data),
+                      nodeToCheck = this.head;
+                  // if the head is null
+                  if(!nodeToCheck) {
+                    this.head = nodeToAdd;
+                    this.length++;
+                    return nodeToAdd;
+                  }
+                  // loop until we find the end
+                  while(nodeToCheck.next) {
+                    nodeToCheck = nodeToCheck.next;
+                  }
+                  // once were at the end of the list
+                  nodeToCheck.next = nodeToAdd;
+                  this.length++;
+                  return nodeToAdd;
+                }
+              }
+
+
+              function Node(data) {
+                this.data = data;
+                this.next = null;
+            };
+            function createLL(){
+                var ll=new LinkedList;
+                ll.add(1);
+                ll.add(2);
+                ll.add(3);
+                ll.add(4)
+                console.log(ll);
+            }
+            function nthFromLast( n){
+                var ll=new LinkedList;
+                ll.add(1);
+                ll.add(2);
+                ll.add(3);
+                ll.add(4)
+                //  var ll = createLL();
+                var count=0,temp=ll.head,nTemp=ll.head;
+                while(temp!=null) {
+                    count++;
+                    temp=temp.next;
+                    if(count-n>0){
+                        nTemp=nTemp.next;
+                    }
+                }
+                return nTemp;
+            }
+            var res = nthFromLast(2);
+            console.log(res);
+          
+function insertInSortedList(data){
+    var ll=new LinkedList;
+    ll.add(1);
+    ll.add(2);
+    ll.add(3);
+    ll.add(5);
+    var curr=ll.head,temp;
+    while(curr != null && curr.data < data) {
+        temp=curr;
+        curr=curr.next;
+    }
+    var newNode = new Node(data);
+    newNode.next = curr ;
+    temp.next =  newNode;
+    return ll;
+}
+console.log(insertInSortedList(4))
+
+function reverse(){
+    var ll=new LinkedList;
+    ll.add(1);
+    ll.add(2);
+    ll.add(3);
+    ll.add(5);
+    var temp=null,head=ll.head, nextNode=null;
+    while(head) {
+        nextNode = head.next;
+        head.next = temp;
+        temp = head;
+        head = nextNode;
+    }
+    return temp;
+}
+console.log("reverse  ",reverse());
+
+//doesn't work..
+function reverInPairs() {
+    var ll=new LinkedList;
+    ll.add(1);
+    ll.add(2);
+    ll.add(3);
+    ll.add(4);
+    ll.add(5);
+    var temp1=null,curr=ll.head, temp2=null;
+    while(curr && curr.next){
+        temp1=curr.next;
+        temp2=temp1.next;
+        temp1.next=curr;
+        curr.next=temp2;
+        if(curr) {
+            curr=curr.next;
+        }
+    }
+}
+console.log("reverInPairs  ");
+reverInPairs()
+
+// reverInPairs using recursion
+
+function instersectingNode(){
+    var ll1=new LinkedList;
+    var ll2=new LinkedList;
+    var ll3=new LinkedList;
+    ll1.add(1);
+    ll1.add(2);
+    ll2.add(1);
+    ll2.add(2);
+    ll2.add(3);
+    ll3.add(5);
+    ll3.add(6);
+    ll2.next=ll3;
+    ll1.add(ll3);
+    console.log(ll1);
+    console.log(ll2);
+    var head1=ll1.head,head2=ll2,L1=0,L2=0,diff;
+    while(head1) {
+        L1++;
+        head1 = head1.next;
+    }
+    while(head2) {
+        L2++;
+        head2 = head2.next;
+    }
+    diff=L1-L2;
+    if(L1<L2) {
+        head1 = ll2.head;
+        head2 = ll1.head;
+        diff = L2-L1
+    }
+    for(var i=0; i<diff; i++) {
+        head1=head1.next;
+    }
+    while(head1 && head2) {
+        if(head1.data === head2.data) {
+            return head1.data
+        }
+        head1=head1.next;
+        head2=head2.next;
+    }
+    return null;
+}
+//instersectingNode();
+
+function mid() {
+    var ll=new LinkedList;
+    ll.add(1);
+    ll.add(2);
+    ll.add(3);
+    ll.add(4);
+    ll.add(5);
+    console.log("ll ",ll)
+    var sP=ll.head,fP=ll.head;
+    while(sP && fP && fP.next) {
+        sP=sP.next;
+        fP=fP.next;
+        fP=fP.next;
+    }
+    return sP;
+}
+console.log("mid ",mid());
+
+function llFromEnd() {
+    var ll=new LinkedList;
+    ll.add(1);
+    ll.add(2);
+    ll.add(3);
+    ll.add(4);
+    ll.add(5);
+    var st=[],head=ll.head;
+    while(head) {
+        st.push(head);
+        head=head.next;
+    }
+    while(st.length>0) {
+        var temp=st.pop();
+        console.log(temp.data)
+    }
+}
+llFromEnd();
+
+function evenOdd(){
+    var ll=new LinkedList;
+    ll.add(1);
+    ll.add(2);
+    ll.add(3);
+    ll.add(4);
+    // ll.add(5);
+    var head=ll.head;
+    while(head && head.next) {
+        head=head.next.next
+    }
+    if(head) {
+        return "odd" 
+    } else return "even";
+}
+console.log(evenOdd());
+
+
+    </script>
+</body>
+</html>

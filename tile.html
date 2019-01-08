@@ -1,0 +1,131 @@
+<html>
+<head>
+    <title>Tile-Game</title>
+    <style>
+        .tile{
+            border:2px solid #000;
+        }
+        .static-text{
+            display: inline-block;
+        }
+        .hidden{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="inputs">
+        <label for="">
+            <input placeholder="enter no. of rows" type="text" id="input1">
+        </label>
+        <label for="">
+            <input placeholder="enter no. of cols" type="text" id="input2">
+        </label>
+        <button id="submit">SUBMIT</button>
+    </div>
+    <div id="score-board" class="hidden">
+        <div class="static-text">MY SCORE IS: &nbsp; &nbsp;</div><div id="score">0</div>
+        <div class="static-text">TIME REMAINING:&nbsp; &nbsp;</div><div id="timer"></div>
+    </div>
+    
+    <div id="game">
+
+    </div>
+</body>
+<script>
+        
+    var r,
+        c,
+        w,
+        h,
+        score=0,
+        divEle,
+        interval,
+        counter=0,
+        rN;
+       document.getElementById('submit').addEventListener('click',function(){
+            document.getElementById('score-board').classList.remove('hidden');
+            document.getElementById('inputs').classList.add('hidden');
+            
+            r=parseInt(document.getElementById('input1').value),
+            c=parseInt(document.getElementById('input2').value),
+            w=500/r,
+            h=500/c,
+            divEle='',
+            timer,
+            elem=document.getElementById('game')
+            elem.style.maxWidth=(510+c*2)+'px';
+          
+            for(var i=0;i<r;i++){
+                for(var j=0;j<c;j++){
+                    divEle = document.createElement('div');
+                    counter++;
+                    divEle.setAttribute('id',counter);
+                    divEle.classList.add('tile');
+                    divEle.style.width=w+'px';
+                    divEle.style.height=h+'px';
+                    elem.appendChild(divEle);
+                    divEle.style.display="inline-block"
+                }
+            }
+            rN = randomNo(r,c);
+            if(document.getElementById(rN)){document.getElementById(rN).style.background="#000";} 
+            showCounter();
+            var interval = setInterval(function(){ 
+                timer = 5;
+                var divs = document.querySelectorAll('.tile');
+                for(let i=0;i<divs.length;i++){
+                    if(document.getElementById(i)){
+                        document.getElementById(i).style.background="#fff";
+                    }
+                    
+                }
+                rN = randomNo(r,c);
+                if(rN && document.getElementById(rN)){
+                    document.getElementById(rN).style.background="#000"; 
+                }
+                
+            }, 6000);
+            
+        });
+        function randomNo(r,c){
+            return Math.floor(Math.random()*Math.floor(r*c));
+        }
+        function showCounter(){
+            setInterval(function(){
+                document.getElementById('timer').innerHTML=timer;
+                if(timer>1){
+                    timer--;
+                }else {
+                    timer = 5;
+                }
+                
+            },1000)
+        }
+        document.getElementById('game').addEventListener('click',function(e){
+            var divs = document.querySelectorAll('.tile');
+            for(let i=0;i<divs.length;i++){
+                if(e.target){
+                    if(divs[i].id == e.target.id){
+                        if(document.getElementById(e.target.id).style.background == 'rgb(0, 0, 0)'){
+                            document.getElementById(e.target.id).style.background="#fff";
+                            document.getElementById('score').innerHTML=++score;
+                        }else {
+                            document.getElementById(rN).style.background="#fff";
+                            document.getElementById('score').innerHTML= --score;
+                        }
+                        clearInterval(interval);
+                    }
+                } else {
+                    document.getElementById('score').innerHTML = score;
+                }
+                 
+            }
+        })
+        
+       
+        
+        
+
+</script>
+</html>

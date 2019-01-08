@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    .item{
+        border:2px solid red;
+    }
+    span{
+        float:right;
+    }
+    .hidden{
+        display: none;
+    }
+</style>
+<body>
+    <h1>hello there</h1>
+    <button id="btn">CREATE TODO</button>
+    <div id="todo"></div>
+</body>
+
+<script>
+    document.getElementById('btn').addEventListener('click', function(){
+        createTodo();
+    });
+    var counter =0;
+    function createTodo(){
+        counter++;
+
+        var inpEle = document.createElement('input');
+        var divEle = document.createElement('div');
+        var btn =  document.createElement('button'),
+        counterID = counter+"_div"
+
+        divEle.setAttribute('id',counterID)
+        let idC=counter;
+
+        inpEle.setAttribute('id',counter);
+        btn.setAttribute('type','submit');
+        btn.innerHTML='SUBMIT';
+        btn.addEventListener('click',function(e){
+            submitTodo(e,counter);
+        })
+        //edit
+        var ebtn =  document.createElement('button');
+        ebtn.innerHTML='EDIT';
+        ebtn.addEventListener('click',function(e){
+            editTodo(e,idC);
+        })
+        var spanEle = document.createElement('span');
+        spanEle.innerHTML = ('X');
+        spanEle.addEventListener('click',function(e){
+            removeItem(e,this)
+        })
+        divEle.classList.add('item');
+        divEle.appendChild(inpEle);
+        divEle.appendChild(btn);
+        divEle.appendChild(ebtn);
+        divEle.appendChild(spanEle);
+        document.getElementById('todo').appendChild(divEle);
+    }
+     function submitTodo(e,id){
+        var parentId = e.target.parentNode.getAttribute('id');
+        var count =  parentId.split('_')[0];
+        document.getElementById(count).setAttribute('disabled','true');
+        createTodo();
+     }
+
+
+     function editTodo(e,id){
+        var parentId = e.target.parentNode.getAttribute('id');
+        var count =  parentId.split('_')[0];
+        document.getElementById(count).removeAttribute('disabled');
+     }
+    function removeItem(e){
+        e.target.parentNode.classList.add('hidden')
+    }
+</script>
+</html>

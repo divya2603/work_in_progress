@@ -1,0 +1,207 @@
+
+<html>
+<head>
+    <title></title>
+    <link  href="http://fonts.googleapis.com/css?family=Reenie+Beanie:regular" rel="stylesheet" type="text/css">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            font-family: "Reenie Beanie", Helvetica, sans-serif;
+            font-size: 180%;
+            margin: 3em;
+            background-color: #666;
+            color: #000;
+        }
+        .container{
+            
+        }
+        .head{
+
+        }
+        li{
+            text-decoration: none;
+            display: block;
+            -webkit-box-shadow: 5px 5px 5px rgba(33,33,33,.7);
+            -moz-box-shadow: 5px 5px 5px rgba(33,33,33,.7);
+            box-shadow: 5px 5px 5px rgba(33,33,33,.7);
+            height:10em;
+            width: 10em;
+            background-color: #ffc;
+            //overflow: hidden;
+            margin: 0 1em 1em 0;
+            padding: 1em;
+        }
+        ul{
+            //overflow: hidden;
+            padding: 1em;
+        }
+        li{
+            list-style: none;
+            float:left;
+        }
+        li:nth-child(even){
+            position: relative;
+            top:5px;
+            transform: rotate(4deg);
+            background: #ccf;
+        }
+        li:nth-child(3n){
+            position: relative;
+            top:5px;
+            transform: rotate(-3deg);
+            background: #cfc;
+        }
+        li:nth-child(5n){
+            position: relative;
+            top:5px;
+            transform: rotate(5deg);
+        }
+        li:hover,li:focus{
+            -webkit-box-shadow: 10px 10px 10px 10px rgba(0,0,0,.7);
+            -moz-box-shadow: 10px 10px 10px 10px rgba(0,0,0,.7);
+            box-shadow: 10px 10px 10px 10px rgba(0,0,0,.7);
+            //transform: scale(1.2);
+            ///-o-transition: -o-transform .15s linear;
+            /-moz-transition: -moz-transform .15s linear;
+            //-webkit-transition: -webkit-transform .15s linear;
+            
+            position: relative;
+            z-index: 1;
+        }
+        .controls{
+            float:right;
+        }
+        .controls:hover, .controls:focus{
+            transform: scale(1.2);
+        }
+        li{
+        }
+        .head{
+            font-weight: bold;
+            background-color: inherit;
+            border:0;
+            resize: none;
+            font-family: inherit;
+            font-size: 100%;
+        }
+        .text{
+            font-weight: normal;
+            background-color: inherit;
+            resize:none;
+            border:0;
+            font-family: inherit;
+            font-size: 100%;
+            width:100%;
+            height:80%;    
+        }
+        .add-more{
+            border:1px solid #000;
+            padding: 5px;
+            margin-left: 20px;
+            display: inline-block; 
+            cursor: pointer; 
+        }
+        .hidden{
+            display: none;
+        }
+    </style>
+   
+</head>
+<body>
+    <div class="add-more" id="addNew">+Add More notes</div>
+    <ul class="notes">
+        <li class="container">
+            <div class="controls">
+                <span class="delete">X</span>
+                <span class="add">+</span>
+            </div>
+            <textarea class="head" placeholder="title goes here" maxlength=10></textarea>
+            <textarea class="text" placeholder="content-goes here"></textarea>
+        </li>
+</ul>
+</body>
+<script>
+    var data=[]
+    var counter=0;
+    var arr = [];
+    window.onload = init;
+    function init(){
+        var del = document.querySelectorAll('.delete');
+        var subnotes = document.getElementsByClassName('add');
+        var length = del.length;
+        for(var i=0;i<length;i++){
+            var x=i;
+            del[x].addEventListener('click',function(){
+                var that =this;
+                deleteNote(that);console.log('fired');
+            })
+            subnotes[x].addEventListener('click',function(e){
+                var that =this;
+                subNotes(e,that);console.log('fired');
+            });
+        }   
+        document.getElementById('addNew').addEventListener('click',function(){
+            var notes=document.body;
+            addNewNotes(notes);
+            pushArray(data,arr)
+            console.log(data)
+        });
+
+    }
+    
+    function deleteNote(that){
+        var container = that.parentNode.parentNode;
+        container.classList.add('hidden');
+    }
+    function addNewNotes(notes){
+        counter++;
+        var element=document.createDocumentFragment();
+        var mainContainer=document.createElement('ul');mainContainer.setAttribute('id',counter)
+        var container=document.createElement('li');
+        var controls=document.createElement('div');
+        var spanEle=document.createElement('span'),
+        addEle=document.createElement('span'),
+        x=document.createTextNode('X'),
+        y=document.createTextNode('+'),
+        textEle=document.createElement('textarea'),
+        textEleCon=document.createElement('textarea');
+        textEle.classList.add('head');
+        textEleCon.classList.add('text');
+        spanEle.addEventListener('click',function(){deleteNote(this);});
+        addEle.addEventListener('click',function(e){subNotes(e,this);});
+        textEle.setAttribute('placeholder','title-goes-here');
+        textEleCon.setAttribute('placeholder','text-goes-here')
+        container.classList.add('container')
+        controls.classList.add('controls');
+        spanEle.classList.add('controls')
+        mainContainer.classList.add('notes')
+        addEle.classList.add('controls')
+        spanEle.appendChild(x);
+        addEle.appendChild(y);  
+        container.appendChild(controls);
+        controls.appendChild(spanEle);
+        controls.appendChild(addEle);
+        mainContainer.appendChild(container);
+        container.appendChild(textEle);
+        container.appendChild(textEleCon);
+        element.appendChild(mainContainer)
+        notes.appendChild(element);
+    }
+    function subNotes(e,that){
+        var subnotes = document.getElementsByClassName('.add');
+        var notes=e.target.parentNode.parentNode;
+        var container = that.parentNode.parentNode;
+        addNewNotes(notes);
+        var r = that.parentNode.nextSibling
+        var val1 = r.value;
+        pushArray(arr,[val1])
+        console.log(arr)
+    }
+    function pushArray(arr1, arr2) {
+        arr1.push.apply(arr1, arr2);
+    }
+</script>
+</html>

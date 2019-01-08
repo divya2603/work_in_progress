@@ -1,0 +1,38 @@
+function deleteNode(Node root){
+    root == null return;
+
+    if(root.left == null and root.right ===null){
+            if(root.data)<0{
+                delete(root);
+            }else{
+                return root.data;
+            }
+        }else{
+
+            if(root.left.left ==null && root.left.right ==null && root.right.left ==null && root.right.right ==null ){
+                root.data + (root.left && root.left.data)+ (root.right && root.right.data)<=0
+                delete(root)
+            }else{
+                if(root.left){
+                    newRoot = root.left;
+                    deleteNode(newRoot)
+                    return root.data+ (root.left && root.left.data)+ (root.right && root.right.data) 
+                    
+                }
+                if(root.right){
+                    newRoot = root.left;
+                    deleteNode(newRoot)
+                    return root.data+ (root.left && root.left.data)+ (root.right && root.right.data) 
+                }
+            }
+        }
+}
+
+        1
+       / \
+      /   \
+     -2   -4
+          / \
+         3   -3
+            / \
+           -1  2

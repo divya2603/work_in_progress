@@ -1,0 +1,559 @@
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <title>Tile Game</title>
+    <link href="https://fonts.googleapis.com/css?family=Atomic+Age" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+    <style media="screen">
+      *{
+        box-sizing: border-box;
+      }
+      body{
+        background: #232526;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #414345, #232526);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #414345, #232526); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        color:#ffffff;
+      }
+      #head-section{
+        display:flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Atomic Age', cursive;
+      }
+      #initialstate{
+        display:flex;
+        flex-direction: column;
+      }
+      #tile-container{
+        display: none;
+        max-width:700px;
+        height:700px;
+        /*background:#efefef;*/
+        background: #3D7EAA;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #FFE47A, #3D7EAA);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #FFE47A, #3D7EAA); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        flex-flow: wrap;
+        margin:0 auto;
+      }
+      #scoredom{
+        display:none;
+        font-family: 'Permanent Marker', cursive;
+        font-size: 15px;
+        font-weight: bold;
+        color: #ffffff;
+        align-items: center;
+        justify-content: space-around;
+        flex-direction: row;
+      }
+      .single-tile{
+        border:1px solid #9E9E9E;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Permanent Marker', cursive;
+        font-size: 30px;
+        color: #ffffff;
+        will-change:opacity,transform;
+        transition: opacity 0.1s ease-in,transform 0.8s ease-out;
+        transform: translateX(-1200px);
+        position: relative;
+      }
+      @keyframes highlightanimation{
+        0%{
+          opacity:0;
+        }
+        50%{
+          opacity:1;
+        }
+        100%{
+          opacity:0;
+        }
+      }
+      #tile-container .single-tile.highlight{
+        animation: highlightanimation 1s ease-in infinite;
+      }
+      /*.single-tile:nth-child(n){
+        background: #4CAF50;
+      }
+      .single-tile:nth-child(2n){
+        background: #3F51B5;
+      }*/
+      .single-tile:hover{
+        cursor: pointer;
+        opacity: 0.6;
+      }
+      .single-tile.visible{
+        transform: translateX(0px);
+      }
+      #inputrows,#inputcolumns{
+        width:50%;
+        height:40px;
+        margin-bottom:10px;
+        border: 1px solid #333333;
+        padding-left:5px;
+        border-radius: 50px;
+        transition: border 0.5s ease-in;
+      }
+      #inputrows:hover,#inputcolumns:hover{
+        border: 3px solid #009688;
+      }
+      #inputrows:focus ,#inputcolumns:focus{
+          outline: none !important;
+          border-color: #009688;
+          box-shadow: 0 0 10px #009688;
+      }
+      .block > label{
+        display:flex;
+        width:50%;
+        padding-left:5px;
+      }
+      #myscore{
+        color: #ff9800;
+      }
+      #totalchances{
+        color: #2196F3;
+      }
+      #correctattempts{
+        color: green;
+      }
+      #wrongattempts{
+        color:red;
+      }
+      #startscreen{
+        display:none;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0%;
+        opacity: 0.8;
+        align-items: center;
+        justify-content: center;
+      }
+      #endscreen{
+        display:none;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0%;
+        opacity: 0.8;
+        align-items: center;
+        justify-content: center;
+      }
+      .modal{
+        background: #333333;
+        height:100%;
+        width:100%;
+        display:flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+      .modal > span{
+        color: red;
+        font-family: 'Atomic Age', cursive;
+        font-size:25px;
+        font-weight: bold;
+      }
+      #startgame{
+        display:none;
+        width:100px;
+        height:100px;
+        padding:5px;
+        margin-top:10px;
+        color:#333333;
+        font-weight: bold;
+        border:1px solid #333333;
+        animation: blink 1s ease-in infinite;
+        border-radius: 50%;
+        cursor: pointer;
+        justify-content: center;
+      }
+      #startgame:hover{
+        color:green;
+        box-shadow: 2px -2px 30px 7px cornflowerblue;
+      }
+      @keyframes blink{
+        0%{
+          opacity:0;
+        }
+        100%{
+          opacity:1;
+        }
+      }
+      .plus-one{
+        position: absolute;
+        color:green;
+        will-change:opacity,transform;
+        font-size: 14;
+        transform: translateY(0px);
+        transition:opacity 0.99s ease-in;
+        display: none;
+        opacity: 0;
+      }
+      .minus-one{
+        position: absolute;
+        color:red;
+        will-change:opacity,transform;
+        font-size: 14;
+        transform: translateY(0px);
+        opacity: 0;
+        display: none;
+        transition:opacity 0.99s ease-in;
+      }
+      @keyframes slideup {
+        0%{
+          transform: translateY(0px);
+        }
+        10%{
+          transform: translateY(5px);
+        }
+        20%{
+          transform: translateY(10px);
+        }
+        30%{
+          transform: translateY(15px);
+        }
+        40%{
+          transform: translateY(27px);
+        }
+        50%{
+          transform: translateY(19px);
+        }
+        60%{
+          transform: translateY(21px);
+        }
+        70%{
+          transform: translateY(23px);
+        }
+        80%{
+          transform: translateY(25px);
+        }
+        90%{
+          transform: translateY(27px);
+        }
+        100%{
+          transform: translateY(29px);
+        }
+      }
+      .correct .plus-one{
+        animation: slideup 1s ease-out;
+        display: flex;
+        opacity:1;
+      }
+      .wrong .minus-one{
+        animation: slideup 1s ease-out;
+        display: flex;
+        opacity: 1;
+      }
+      #timer-container{
+        font-family: sans-serif;
+        color: #fff;
+        font-weight: 100;
+        text-align: center;
+        font-size: 30px;
+        display:none;
+      }
+    #timer-container > div{
+        padding: 10px;
+        border-radius: 3px;
+        background: #00BF96;
+        display: inline-block;
+      }
+    #timer-container div > span{
+        padding: 15px;
+        border-radius: 3px;
+        background: #00816A;
+        display: inline-block;
+      }
+    .smalltext{
+        padding-top: 5px;
+        font-size: 16px;
+      }
+    @media only screen and (max-width: 800px) and (min-width: 400px) {
+      #tile-container{}
+    }
+    </style>
+  </head>
+  <body>
+    <div id="head-section">
+      <h3>Welcome to the tile game</h3>
+      <div id="timer-container">
+        <div>
+          <span class="minutes"></span>
+          <div class="smalltext">Minutes</div>
+        </div>
+        <div>
+          <span class="seconds"></span>
+          <div class="smalltext">Seconds</div>
+        </div>
+      </div>
+    </div>
+    <div id="initialstate">
+      <div class="block">
+        <label for="input_rows">Enter No Of Rows</label>
+        <input id="inputrows" type="number"  placeholder="Enter the number of rows" name="input_rows" value="">
+      </div>
+      <div class="block">
+        <label for="input_columns">Enter No Of Columns</label>
+        <input id="inputcolumns" type="number" name="input_columns" placeholder="Enter the number of columns"  value="">
+      </div>
+      <div class="block">
+        <input id="submitbutton" type="submit" name="submit_button" onclick="submitTileDimension()" value="Submit">
+      </div>
+    </div>
+    <div id="scoredom">
+      <div id="myscore"></div>
+      <div id="totalchances"></div>
+      <div id="correctattempts"></div>
+      <div id="wrongattempts"></div>
+    </div>
+    <div id="tile-container">
+
+    </div>
+    <div id="startscreen">
+      <div class="modal">
+        <span>Compete And Play TileTap Game</span>
+        <button id="startgame" type="submit" value="" onclick="startgamefunc()">Start Game</button>
+      </div>
+    </div>
+    <div id="endscreen">
+      <div class="modal">
+        <span>Hurray!! You scored <span id="scoredisplay"></span></span>
+        <button id="playagain" type="submit" value="" onclick="playagainfunc()">Play Again</button>
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript">
+    var score = 0;
+    var totalchancesvalue = 0;
+    var correctattemptsvalue = 0;
+    var wrongattemptsvalue = 0;
+    function submitTileDimension(){
+      window.rows = document.getElementById('inputrows').value;
+      window.columns = document.getElementById('inputcolumns').value;
+      var rows = window.rows;
+      var columns = window.columns;
+      var scoredom = document.getElementById('scoredom');
+      if(!rows || !columns){
+        alert("enter rows and columns and hit submit");
+        return;
+      }
+      else{
+        if(rows > 8 || columns > 8 ){
+          alert("please enter rows or columns less than or equal to 10");
+          return;
+        }
+        var width = 700;
+        var height = 700;
+        var tilecounter = 0;
+        var singleTileWidth = width/columns;
+        var singleTileHeight = width/rows;
+        var tilecontainer = document.getElementById('tile-container');
+        var initialstate = document.getElementById('initialstate');
+        var startscreen = document.getElementById('startscreen');
+        var startgame = document.getElementById('startgame');
+        var timercontainer = document.getElementById('timer-container');
+        initialstate.style.display = "none";
+        tilecontainer.style.display = "flex";
+        scoredom.style.display = "flex";
+        startscreen.style.display= "flex";
+        timercontainer.style.display = 'inline-block';
+        for(var i=1; i <= columns ; i++){
+          for(var j = 1; j <= rows ; j++){
+            var divElement = document.createElement('div');
+            tilecounter= tilecounter+1;
+            divElement.setAttribute("class","single-tile");
+            divElement.setAttribute("id",tilecounter);
+            divElement.setAttribute("style","width:"+singleTileWidth+"px;height:"+singleTileHeight+ "px;");
+            divElement.style.background ="url('./icons/"+getRandomNumber(15) +".svg')";
+            var plusoneelement = document.createElement('div');
+            var minusoneelement = document.createElement('div');
+            plusoneelement.setAttribute('class','plus-one');
+            minusoneelement.setAttribute('class','minus-one');
+            plusoneelement.innerHTML = '+1';
+            minusoneelement.innerHTML = '-1';
+            divElement.appendChild(plusoneelement);
+            divElement.appendChild(minusoneelement);
+            tilecontainer.appendChild(divElement);
+            divElement.onclick = tileclick;
+          }
+        }
+        var tiles = document.getElementById('tile-container').childNodes;
+        // console.log('tiles',tiles);
+        for(var k=1; k< tiles.length;k++){
+          (function(index) {
+            setTimeout(function(){
+                addClass(tiles[index],'visible');
+                if(index === tiles.length -1){
+                  startgame.style.display = 'flex';
+                }
+            }, index * 100);
+          })(k);
+        }
+        window.randomnumber = getRandomTileSelector(rows,columns);
+        highlightRandomTile(window.randomnumber);
+      }
+    }
+    function getTimeRemaining(endtime) {
+      var t = Date.parse(endtime) - Date.parse(new Date());
+      var seconds = Math.floor((t / 1000) % 60);
+      var minutes = Math.floor((t / 1000 / 60) % 60);
+      return {
+        'total': t,
+        'minutes': minutes,
+        'seconds': seconds
+      };
+    }
+    function initializeClock(id, endtime) {
+      var clock = document.getElementById(id);
+      var minutesSpan = clock.querySelector('.minutes');
+      var secondsSpan = clock.querySelector('.seconds');
+      function updateClock() {
+        var t = getTimeRemaining(endtime);
+        minutesSpan.innerHTML = ('0' + (t.minutes)).slice(-2);
+        secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+        if (t.total <= 0) {
+          clearInterval(timeinterval);
+        }
+      }
+      updateClock();
+      var timeinterval = setInterval(updateClock, 1000);
+    }
+    function tileclick(event){
+      console.log('tileclick event',event.target.id,window.randomnumber);
+        var myscore = document.getElementById('myscore');
+        var totalchances = document.getElementById('totalchances');
+        var correctattempts = document.getElementById('correctattempts');
+        var wrongattempts = document.getElementById('wrongattempts');
+      if(event.target.id == window.randomnumber){
+          score++;
+          totalchancesvalue++;
+          correctattemptsvalue++;
+          var clickedelement = document.getElementById(event.target.id);
+          clickedelement.style.background = "url('./icons/"+getRandomNumber(15) +".svg')";
+          clickedelementchild = clickedelement.childNodes;
+          console.log('clickedelementchild',clickedelementchild);
+          for(i=0;i<clickedelementchild.length;i++){
+            if(clickedelementchild[i].className === 'plus-one'){
+              clickedelementchild[i].style.display= 'flex';
+              addClass(clickedelement,'correct');
+            }
+          }
+          myscore.innerHTML = "Score : "+ score;
+          totalchances.innerHTML = "Total Chances : "+ totalchancesvalue;
+          correctattempts.innerHTML = "Correct Attempts : "+ correctattemptsvalue;
+          chooseNewRandomTile(window.randomnumber);
+          for(i=0;i<clickedelementchild.length;i++){
+            if(clickedelementchild[i].className === 'plus-one'){
+              (function(i){
+                setTimeout(function(){
+                clickedelementchild[i].style.display= 'none';
+                removeClass(clickedelement,'correct');
+              },1000)})(i);
+            }
+          }
+      }
+      else{
+          score--;
+          totalchancesvalue++;
+          wrongattemptsvalue++;
+          var clickedelement = document.getElementById(event.target.id);
+          clickedelementchild = clickedelement.childNodes;
+          console.log('clickedelementchild',clickedelementchild);
+          for(i=0;i<clickedelementchild.length;i++){
+            if(clickedelementchild[i].className === 'minus-one'){
+              clickedelementchild[i].style.display= 'flex';
+              addClass(clickedelement,'wrong');
+            }
+          }
+          myscore.innerHTML = "Score : "+ score;
+          totalchances.innerHTML = "Total Chances : "+ totalchancesvalue;
+          wrongattempts.innerHTML = "Wrong Attempts : "+ wrongattemptsvalue;
+          for(i=0;i<clickedelementchild.length;i++){
+            if(clickedelementchild[i].className === 'minus-one'){
+              (function(i){
+                setTimeout(function(){
+                clickedelementchild[i].style.display= 'none';
+                removeClass(clickedelement,'wrong');
+              },1000)})(i);
+            }
+          }
+      }
+      window.score = score;
+    }
+    function chooseNewRandomTile(id){
+        // console.log('chooseNewRandomTile',id);
+        removeClass(document.getElementById(id),'highlight');
+        var newRandomNumber = getRandomTileSelector(window.rows,window.columns);
+        window.randomnumber = newRandomNumber;
+        // console.log('newRandomNumber',newRandomNumber);
+        highlightRandomTile(newRandomNumber);
+    }
+    function getRandomTileSelector(rows,columns){
+      var totaltiles = rows * columns;
+      var randomnumber = Math.floor((Math.random() * totaltiles) + 1);
+      // console.log('randomnumber in getRandomTileSelector',randomnumber);
+      return randomnumber;
+    }
+    function getRandomNumber(to){
+      var randomnumber = Math.floor((Math.random() * to) + 1);
+      return randomnumber;
+    }
+    function highlightRandomTile(randomnumber){
+      // console.log('highlightRandomTile',randomnumber);
+      var tilenumber = randomnumber;
+      if(!hasClass(document.getElementById(tilenumber),'highlight')){
+        addClass(document.getElementById(tilenumber),'highlight');
+      }
+    }
+    function startgamefunc(){
+      var startscreen = document.getElementById('startscreen');
+      var endscreen = document.getElementById('endscreen');
+      var scoredisplay = document.getElementById('scoredisplay');
+      startscreen.style.display = 'none';
+      var deadline = new Date(Date.parse(new Date()) +  6 * 1000);
+      initializeClock('timer-container', deadline);
+      (function(endscreen,scoredisplay){
+          setTimeout(function (){
+            endscreen.style.display = 'flex';
+            scoredisplay.innerHTML = window.score;
+          },1000*6);
+        })(endscreen,scoredisplay);
+    }
+    function playagainfunc(){
+        score = 0;
+        totalchancesvalue = 0;
+        correctattemptsvalue = 0;
+        wrongattemptsvalue = 0;
+        endscreen = document.getElementById('endscreen');
+        endscreen.style.display = 'none';
+        myscore.innerHTML = "Score : "+ score;
+        totalchances.innerHTML = "Total Chances : "+ totalchancesvalue;
+        correctattempts.innerHTML = "Correct Attempts : "+ correctattemptsvalue;
+        wrongattempts.innerHTML = "Wrong Attempts : "+ wrongattemptsvalue;
+        startgamefunc();
+    }
+    function hasClass(el, className) {
+      // console.log('el',el,className);
+      if (el.classList)
+        return el.classList.contains(className)
+      else
+        return !!el.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'))
+    }
+    function addClass(el, className) {
+      if (el.classList)
+        el.classList.add(className)
+      else if (!hasClass(el, className)) el.className += " " + className
+    }
+    function removeClass(el, className) {
+      if (el.classList)
+        el.classList.remove(className)
+      else if (hasClass(el, className)) {
+        var reg = new RegExp('(\\s|^)' + className + '(\\s|$)')
+        el.className=el.className.replace(reg, ' ')
+      }
+    }
+  </script>
+</html>

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Calendar</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .timetable{
+            float: left;
+            width: 100%;
+        }
+        .timetable-week{
+            float: left;
+        }
+        .timetable-axis{
+            padding-top: 60px;
+            float: left;
+        }
+        .axis-item{
+            font-size: 15px;
+            line-height: 1;
+            height: 55px;
+        }
+        .timetable-columns{
+            font-size: 16px;
+            line-height: 24px;
+            margin-left: 60px;
+            text-align: center;
+
+        }
+        .timetable-column{
+            position: relative;
+            width: 14%;
+            float: left;
+            min-width: 100px;
+        }
+        .header{
+            padding: 10px;
+            height: 50px;
+            box-sizing: content-box;
+            border-right: 1px solid #d1d1d1;
+            background-color: #c594c5;
+            color: #fff;
+
+        }
+        .content{
+
+        }
+        .grid{
+            position: relative;
+        }
+        .grid-item{
+            box-sizing: content-box;
+            height:54px;
+            line-height: 24px;
+            border-bottom: 1px solid #e8e8e8;
+            border-right: 1px solid #e8e8e8;
+            position: relative;
+        }
+        .grid-item:hover{
+            background: cadetblue;
+        }
+        .add-content{
+            position: absolute;
+            text-align: center;
+            color: white;
+            width:100px;
+            background: pink;
+        }
+        .overlay{
+            position: fixed;
+            top:0;
+            left: 0;
+            width: 80vw;
+            height: 80vh;
+            margin-left: 5%;
+            background-color: rgba(0,0,0,0.8);
+        }
+        .overlay-content{
+            position: absolute;
+            top:50%;
+            left:50%;
+            transform: translate(-50%,-50%);
+        }
+        .hidden{
+            display:none;
+        }
+        .name {
+            display: block;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="timetable">
+        <div class="timetable-week">
+            <div class="timetable-axis">
+                <div class="axis-item">09:00</div>
+                <div class="axis-item">10:00</div>
+                <div class="axis-item">11:00</div>
+                <div class="axis-item">12:00</div>
+                <div class="axis-item">13:00</div>
+                <div class="axis-item">14:00</div>
+                <div class="axis-item">15:00</div>
+                <div class="axis-item">16:00</div>
+                <div class="axis-item">17:00</div>
+                <div class="axis-item">18:00</div>
+                <div class="axis-item">19:00</div>
+                <div class="axis-item">20:00</div>
+                <div class="axis-item">21:00</div>
+            </div>
+            <div class="timetable-columns">
+                <div class="timetable-column">
+                    <div class="header">Monday</div>
+                    <div class="content"></div>
+                    <div class="grid">
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                    </div>
+                </div>
+                <div class="timetable-column">
+                    <div class="header">Tuesday</div>
+                    <div class="content"></div>
+                    <div class="grid">
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                    </div>
+                </div>
+                <div class="timetable-column">
+                    <div class="header">Wednesday</div>
+                    <div class="content"></div>
+                    <div class="grid">
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                    </div>
+                </div>
+                <div class="timetable-column">
+                    <div class="header">Thursday</div>
+                    <div class="content"></div>
+                    <div class="grid">
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                    </div>
+                </div>
+                <div class="timetable-column">
+                    <div class="header">Friday</div>
+                    <div class="content"></div>
+                    <div class="grid">
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                    </div>
+                </div>
+                <div class="timetable-column">
+                    <div class="header">Saturday</div>
+                    <div class="content"></div>
+                    <div class="grid">
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                    </div>
+                </div>
+                <div class="timetable-column">
+                    <div class="header">Sunday</div>
+                    <div class="content"></div>
+                    <div class="grid">
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="overlay hidden">
+                <div class="overlay-content">
+                    
+                        <input type="text" name="name" id="name" placeholder="Task Name" class="name">
+                        <input type="datetime" name="startTime" id="startTime" placeholder="start time" class="start-time">
+                        <input type="datetime" name="endTime" id="endTime" placeholder="end time" class="end-time">
+                        <div class="static-content">Enter time between 9:00AM and 8:00PM</div>
+                        <button type="submit" id="sub"value="submit">submit</button>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+       
+</body>
+
+<script>
+    var parentClicked,
+    index=0;
+    function addHere(that,start,height,title){
+        var frgment = document.createElement('div');
+        txtNode = document.createElement('div'),
+        txtNode.textContent=title;
+        frgment.appendChild(txtNode);
+        frgment.classList.add('add-content')
+        that.appendChild(frgment);
+        frgment.style.top=start*55+"px";
+        frgment.style.height=height+"px";
+    }
+    document.querySelectorAll('.grid-item').forEach(function(item){
+        item.addEventListener('click',function(e){
+            that=this;
+            if(e.target.classList.contains('grid-item')){
+                document.querySelector('.overlay').classList.remove('hidden')
+                parentClicked = this;
+
+            }
+        })
+    });
+    document.querySelector('.timetable').addEventListener('click',function(e){
+        if(!document.querySelector('.overlay').classList.contains('hidden')){
+            if(!e.target.classList.contains('overlay')){
+                //document.querySelector('.overlay').classList.add('hidden')
+            }
+        }
+    });
+
+    document.querySelector('#sub').addEventListener('click',function(e){
+       var s=getValues().s,
+       e = getValues().e,
+       title = getValues().title,
+        diff = calc(s,e).diff,
+        start = calc(s,e).start,
+        correction = calc(s,e).correction,
+        par = parentClicked.parentNode,
+        x={title: title, s:s, e:e};
+        localStorage.setItem(index,JSON.stringify(x))
+        addHere(par,start+correction,diff*55,title); 
+        index++;
+        document.querySelector('#name').value="";
+        document.querySelector('#startTime').value="";
+        document.querySelector('#endTime').value="";
+    });
+
+    window.onload = function getFromLS(){
+        var len = localStorage.length;
+        if(len>0){
+            for(let i=0;i<len;i++){
+                    var value = JSON.parse(localStorage.getItem(i)),
+                    s = value.s,
+                    e = value.e,
+                    title = value.title;
+                    calc(s,e)
+                    addHere(par,start+correction,diff*55,title);
+                
+            }
+        }
+    }
+    function calc(s,e){
+        var hour = parseInt(s),
+        start = hour - 9,
+        minutes = s-hour,
+        correction=(minutes/60)*55;
+        
+        if(e>s){
+            diff= (e-s)
+        }else{
+            diff = (12+e-s)
+        }
+        return {
+            start:start,
+            correction:correction,
+            diff:diff
+        }
+    }
+    function getValues(){
+        document.querySelector('.overlay').classList.add('hidden');
+        var s=parseFloat(document.querySelector('#startTime').value.split(':').join('.')),
+        e=parseFloat(document.querySelector('#endTime').value.split(':').join('.')),
+        title = document.querySelector('#name').value || "No title";
+        return {
+            s:s,
+            e:e,
+            title:title
+        }
+    }
+</script>
+</html>

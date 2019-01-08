@@ -1,0 +1,332 @@
+<html>
+<head>
+    <title></title>
+    <style>
+        .hidden {
+            display: none;
+        }
+        .debit-heading,.credit-heading{
+            width:50%;
+            display: inline-block;
+        }
+        .cardName {
+            position: absolute;
+            top: 18px;
+            right: 0;
+        }
+        .card-number {
+            position: relative;
+        }
+        .credit-heading{
+            display: inline;
+        }
+        .expiry-date{
+            float:left;
+            width: 50%;
+        }
+        .card-number, .expiry-date, .cvv{
+            margin-bottom: 20px;
+        }
+        .card-number input{
+            display: block;
+            width: 100%;
+        } 
+        .card-number label, .expiry-date label, .cvv label{
+            margin-bottom: 8px;
+        }
+        .cvv{
+            width: 50%;
+            float:right;
+        }
+        #cvv{
+            -webkit-text-security: disc;
+            -moz-text-security: disc;
+            text-security: disc;
+        }   
+        
+        .cvv input {
+            display: block;
+        }
+        .pay{
+            width: 100%;
+            padding: 5px 0 5px 0;
+        }
+        .err{
+            border:1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <p class="text">Saved Cards</p>
+    <div class="added-cards">
+        
+    </div>
+    <p class="text">Select Payment option</p>
+    <form id="dc-cc" class="cards">
+        <h3>
+            <div class="debit-heading">
+                <input type="radio" name="debit" id="debit" checked>Debit Card
+            </div>
+            <div class="credit-heading">
+                <input type="radio" name="debit" id="credit">Credit Card
+            </div>
+        </h3>
+        <div class="dc">
+                <div class="card-number">
+                    <label for="">Card Number</label>
+                    <input type="tel" class="text-card" maxlength="19">
+                    <span class="cardName" id="cardName"></span>
+                    <i class="card-type"></i>
+                    <label for="" id="card-error" class="error"></label>
+                </div>
+                <div class="expiry-date">
+                    <label for="date">Expiry Date</label>
+                    <div class="date">
+                        <select name="date" id="date">
+                                <option value="MM">MM</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                            <select name="year" id="year">
+                                <option value="YYYY">YYYY</option>
+                                <option value="2018">2018</option>
+                                <option value="2019">2019</option>
+                                <option value="2020">2020</option>
+                                <option value="2021">2021</option>
+                                <option value="2022">2022</option>
+                                <option value="2023">2023</option>
+                                <option value="2024">2024</option>
+                                <option value="2025">2025</option>
+                                <option value="2026">2026</option>
+                                <option value="2027">2027</option>
+                            </select>
+                    </div>
+                    <label for="" id="date-error" class="error"></label>
+                </div>
+            
+                <div class="cvv">
+                    <label for="cvv">CVV </label>
+                    <input type="text" id="cvv" maxlength="3">
+                    <label for="" id="cvv-error" class="error"></label>
+                </div>
+                <button class="pay" id="dc-pay">PAY</button>
+        </div>
+    
+        <div id= "cc" class="cc hidden">
+                <div class="card-number">
+                    <label for="">Card Number</label>
+                    <input type="text-card">
+                    <i class="card-type"></i>
+                    <label for="" id="card-error" class="error"></label>
+                </div>
+                <div class="expiry-date">
+                    <label for="date">Expiry Date</label>
+                    <div class="date">
+                        <select name="date" id="date">
+                                <option value="MM">MM</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                            <select name="" id="">
+                                <option value="YYYY">YYYY</option>
+                                <option value="2018">2018</option>
+                                <option value="2019">2019</option>
+                                <option value="2020">2020</option>
+                                <option value="2021">2021</option>
+                                <option value="2022">2022</option>
+                                <option value="2023">2023</option>
+                                <option value="2024">2024</option>
+                                <option value="2025">2025</option>
+                                <option value="2026">2026</option>
+                                <option value="2027">2027</option>
+                            </select>
+                    </div>
+                    
+                </div>
+            
+                <div class="cvv">
+                    <label for="cvv">CVV </label>
+                    <input type="text" id="cvv">
+                    <label for="" id="cvv-error" class="error"></label>
+                </div>
+                <button class="pay" id="cc-pay">PAY</button>
+        </div>
+    </form>
+
+</body>
+<script>
+    var data={  
+        "VISA":{  
+           "cardPattern":/^4/,
+           "cardNumberLength":16,
+           "cvv":"required",
+           "cvvLength":3,
+           "displayText":"Visa"
+        },
+        "MASTERCARD":{  
+           "cardPattern":/^5[1-5]/,
+           "cardNumberLength":16,
+           "cvv":"required",
+           "cvvLength":3,
+           "displayText":"Master"
+        },
+        "MAESTRO":{  
+           "cardPattern":/^(50|63|66|5[6-8]|6[8-9]|600[0-9]|6010|601[2-9]|60[2-9]|61|620|621|6220|6221[0-1])/,
+           "cardNumberLength":19,
+           "cvv":"optional",
+           "cvvLength":4,
+           "displayText":"Maestro"
+        }
+     };
+    var dc =document.querySelector('#debit');
+    var cc =document.querySelector('#credit');
+    var id=0;
+
+    document.querySelector('.cards').addEventListener('click',function(){
+        if(document.querySelector('#credit').checked){
+            document.querySelector('.cc').classList.remove('hidden')
+            document.querySelector('.dc').classList.add('hidden')
+        } else {
+            document.querySelector('.cc').classList.add('hidden')
+            document.querySelector('.dc').classList.remove('hidden') 
+        }
+    });
+
+    document.querySelector('.text-card').addEventListener('keyup',function(e){
+        var cardNo=document.querySelector('.text-card').value;
+        var cardDet = cardName(cardNo);
+        var foo = this.value.split(" ").join("");
+        if (foo.length > 0) {
+            foo = foo.match(new RegExp('.{1,4}', 'g')).join(" ");
+        }
+        this.value = foo;
+        if(this.value.length==0){
+            document.querySelector('#card-error').innerHTML="";
+            document.querySelector('#cardName').innerHTML=""; 
+            document.querySelector('.text-card').classList.remove('err');
+        }
+        if(cardDet){
+            if(cardDet[0].length>0){
+                document.querySelector('#cardName').innerHTML=cardDet[0];
+                document.querySelector('.text-card').classList.remove('err');
+                document.querySelector('#card-error').innerHTML="";
+                if(cardDet[0]=="Maestro"){
+                    var spaceLen =Math.ceil(cardDet[1]/4)-1;
+                    document.querySelector('.text-card').setAttribute("maxlength",cardDet[1]+spaceLen)
+                    document.querySelector('#cvv').setAttribute("maxlength",cardDet[2])
+                }
+            }
+        }else {
+            if(this.value.length>0){
+                document.querySelector('#cardName').innerHTML=""; 
+                document.querySelector('#card-error').innerHTML="enter valid card";
+                document.querySelector('.text-card').classList.add('err');
+            }
+        }
+    });
+    document.querySelector('#date').addEventListener('focus',function(){
+        var cardNo=document.querySelector('.text-card').value;
+        var cardDet = cardName(cardNo);
+        var spaceLen = cardDet && Math.ceil(cardDet[1]/4)-1;
+        if(document.querySelector('#date-error').innerHTML.length>1){
+            document.querySelector('#date-error').innerHTML="";
+            document.querySelector('.text-card').classList.remove('err');
+        }
+        if(cardDet && cardDet[0] && cardNo.length<cardDet[1]+spaceLen || cardNo.length==0 ){
+            document.querySelector('.text-card').classList.add('err');
+            document.querySelector('#card-error').innerHTML="This field is required."
+        }
+    });
+    document.querySelector('#cvv').addEventListener('focus',function(){
+        var cardNo=document.querySelector('.text-card').value;
+        var cardDet = cardName(cardNo);
+        var month = document.getElementById("date");
+        var mvalue = month.options[month.selectedIndex].value;
+        var mtext = month.options[month.selectedIndex].text;
+        var year = document.getElementById("year");
+        var yvalue = year.options[year.selectedIndex].value;
+        var ytext = year.options[year.selectedIndex].text;
+        if(mtext=="MM" || ytext=="YYYY"){
+            document.querySelector('#date').classList.add('err');
+            document.querySelector('#year').classList.add('err');
+            document.querySelector('#date-error').innerHTML="This field is required."
+        }else {
+            document.querySelector('#date').classList.remove('err');
+            document.querySelector('#year').classList.remove('err');
+            document.querySelector('#date-error').innerHTML="";
+        } 
+    });
+    function cardName(cardNum){
+        for(key in data){
+            let cardPattern = new RegExp(data[key].cardPattern);
+            if(cardPattern.test(cardNum)){
+                return [data[key].displayText,data[key].cardNumberLength,data[key].cvvLength,data[key].cvv];
+            }
+        }
+    }
+    document.querySelector('#dc-pay').addEventListener('focus',function(){
+        var cardNo=document.querySelector('.text-card').value;
+        var cardDet = cardName(cardNo);
+        var details;
+        var month = document.getElementById("date");
+        var mvalue = month.options[month.selectedIndex].value;
+        var mtext = month.options[month.selectedIndex].text;
+        var year = document.getElementById("year");
+        var yvalue = year.options[year.selectedIndex].value;
+        var ytext = year.options[year.selectedIndex].text;
+        var cvv=document.querySelector('#cvv').value;
+        if(cardDet && cardDet[3] != "optional"){
+            if(cvv.length<cardDet[2]){
+                document.querySelector('#cvv-error').classList.add('err');
+                document.querySelector('#cvv-error').innerHTML="This field is required."
+            }else if(cardNo && mvalue!="MM" && yvalue!="YYYY" && cvv){
+                details={
+                    cardNo:cardNo,
+                    e_month: mvalue,
+                    e_year: yvalue,
+                    cvv: cvv
+                }
+                localStorage.setItem(id,JSON.stringify(details));
+                id++;
+                document.querySelector('#dc-cc').reset();
+                alert("data submitted successfully")
+            }
+        }else{
+            document.querySelector('#cvv-error').classList.remove('err');
+            document.querySelector('#cvv-error').innerHTML="" ;
+            if(cardNo && mvalue!="MM" && yvalue!="YYYY"){
+                details={
+                    cardNo:cardNo,
+                    e_month: mvalue,
+                    e_year: yvalue
+                }
+                localStorage.setItem(id,JSON.stringify(details));
+                id++;
+                document.querySelector('#dc-cc').reset();
+                alert("data submitted successfully")
+            }
+        }
+
+    })
+</script>
+</html>

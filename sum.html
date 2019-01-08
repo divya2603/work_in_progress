@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    function sum(a,k) {
+        for(var i=0;i<a.length;i++){
+            if(a.indexOf(k-a[i])>-1) {
+                return true;
+            }
+        }
+        return false;
+    }
+    var a=[10,15,3,7],k=17;
+    console.log(sum(a,k));
+// each element is multiple of all elments except that element
+function mul(a){
+   var product = a.reduce((acc,currVal)=> {
+        return acc*currVal
+    },1)
+    var res = a.reduce((acc,currVal,i,array) =>{
+        acc.push(product/currVal);
+        return acc;
+    },[])
+    console.log(res);
+}
+mul([1,2,3,4,5])
+</script>
+</html>

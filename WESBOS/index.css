@@ -1,0 +1,53 @@
+aside, .allItems {
+	display:inline-block;
+	vertical-align: top;
+}
+
+aside {
+	width: 19%;
+	font-family: calibri;
+}
+
+.filter-prize label, .filter-brand label, .filter-color>p {
+	display:inline-block;
+	width:100%;
+	margin:20px 0 10px;
+}
+
+.color-wrapper input, .color-wrapper label {
+	cursor: pointer;
+}
+
+.allItems {
+	width:80%;
+}
+
+.items li {
+	width: 33%;
+    display: inline-block;
+    vertical-align: top;
+    font-family: calibri;
+    margin-top: 20px;
+}
+
+.items li img {
+	height: 220px;
+    width: 100%;
+}
+.items li .rating span {
+	background: green;
+    display: inline-block;
+    width: 34px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.items li .item-title {
+	text-transform: capitalize;
+}
+
+.items .item-discount {
+    margin-left: 10%;
+    color:green;
+}
+

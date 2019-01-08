@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="card.css">
+</head>
+<body>
+    <div id="saved-cards">
+        
+    </div>
+    <div class="card-body">
+        <h2 class="head">
+            Credit Card
+        </h2>
+        <div class="body">
+            <label for="" class="card"></label>
+            <div class="cc">
+                <div class="container">
+                    <input type="number" name="" id="card-no" maxlength="16">
+                    <p class="card-name"></p>
+                    <p class="card-err"></p>
+                </div>
+                <div class="expiry">
+                    <div class="exp-date">
+                        <select name="" id="exp-mm" class="date" disabled>
+                            <option value="">MM</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+                        <select name="" id="exp-yy" class="date" disabled>
+                                <option value="">YYYY</option>
+                                <option value="2018">2018</option>
+                                <option value="2019">2019</option>
+                                <option value="2020">2020</option>
+                                <option value="2021">2021</option>
+                                <option value="2022">2022</option>
+                                <option value="2023">2023</option>
+                                <option value="2024">2024</option>
+                                <option value="2025">2025</option>
+                                <option value="2026">2026</option>
+                                <option value="2027">2027</option>
+                            </select>
+                    </div>
+                    <div class="exp-cvv">
+                        <label for="cvv"></label>
+                        <input type="number" name="" id="cvv" maxlength="3" data-pattern="[0-9]*" disabled>
+                        <p class="err"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="btn">
+            <a href="" class="submit-btn">SUBMIT</a>
+        </div>
+    </div>
+    <script src="./card.js"></script>
+</body>
+</html>

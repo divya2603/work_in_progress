@@ -1,0 +1,125 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.hidden {
+    display: none;
+}
+.flex {
+    display: flex;
+}
+.main-container {
+    max-width: 480px;
+    margin: 0 auto;
+    position: relative;
+}
+.search-container {
+    width:100%;
+}
+.search {
+    width:100%;
+    background: rgb(48, 9, 223);
+    color:#fff;
+    border:none;
+    height:40px;
+    padding: 10px;
+}
+.container {
+    box-shadow: 2px 2px 2px grey;
+    margin-bottom:20px;
+    padding: 10px;
+}
+.container:first-child {
+    border-top: none;
+}
+.container:last-child {
+    margin-bottom: 70px;
+}
+.stack {
+    display: inline-block;
+    width: 32%;
+}
+.fa {
+    color: grey;
+}
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 10px;
+    background: rgb(129, 163, 236);
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    border: 1px solid blue;
+}
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 2px;
+    height: 10px;
+    background: blue;
+    cursor: pointer;
+}
+
+.sort-container {
+    position: fixed;
+    bottom: 0;
+    background: #fff;
+    width: 98%;
+    max-width: 480px;
+    color: #000;
+    text-align: center;
+    display: flex;
+    height: 50px;
+    border: 1px solid black;
+}
+.sort-txt {
+    width: 49%;
+    display: inline-block;
+    padding-top: 15px;
+}
+.sort-txt:active {
+    color:blue;
+}
+.sort-txt:first-child {
+    border-right: 1px solid black;
+}
+.overlay-container {
+    position: absolute;
+    z-index: 2;
+    width:50vw;
+    height:50vh;
+    background: rgba(0,0,0,0.7);
+    margin: auto;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%)
+    
+}
+.overlay .text{
+    position: absolute;
+    margin: auto;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+.remove-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color:red;
+    cursor: pointer;
+}
+.pos {
+    color: green;
+}
+
+.neg {
+    color:red;
+}
+.product-name {
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}

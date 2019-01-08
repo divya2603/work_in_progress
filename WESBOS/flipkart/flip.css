@@ -1,0 +1,27 @@
+.compateText {
+    width: 28%;
+    display: inline-block;
+    position: absolute;
+    top:0;
+}
+.compare {
+    width: 70%;
+    display: inline-block;
+    margin-left: 400px;
+}
+.item {
+    display: inline-block;
+    width:48%;
+}
+img {
+    max-width: 248px;
+}
+.container {
+    position: relative;
+}
+.compateText {
+    
+}
+.hidden {
+    display: none;
+}

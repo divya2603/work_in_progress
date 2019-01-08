@@ -1,0 +1,40 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    color: aquamarine;
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+}
+.clock {
+    margin: auto;
+}
+.clock-face {
+    border-radius: 100%;
+    width: 300px;
+    height: 300px;
+    border: 10px solid blueviolet;
+    position: relative;
+}
+.hand {
+    border-top: 6px solid black;
+    width: 50%;
+    top: 50%;
+    position: absolute;
+    transform-origin: 100%; 
+    transition: all 0.05s;
+    transform: rotate(90deg);
+    transition-timing-function: cubic-bezier(0.46, 1.66, 1, 1);
+}
+.hour {
+    
+}
+.minute {
+
+}
+.second {
+
+}
